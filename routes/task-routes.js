@@ -76,11 +76,19 @@ router.delete("/tasks/:id", (req, res, next) => {
   }
 
   Task.findByIdAndRemove(id)
+    .then(deletedTask => {
+      return deletedTask.project; // return the project id to the next then statement
+    })
+    .then(projectId => {
+      return Project.findByIdAndUpdate(projectId, { $pull: { tasks: id } }); // return the peding project update promise to the next then statement
+    })
     .then(() => {
+      // when project update promise is done we send the response
       res.status(201).json({ message: "Task deleted" });
     })
     .catch(err => {
       res.status(400).json(err);
     });
 });
+
 module.exports = router;
