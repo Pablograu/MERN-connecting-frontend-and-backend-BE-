@@ -6,8 +6,8 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-//  const projectRouter = require('./routes/project-routes');
-//  const taskRouter = require('./routes/task-routes');
+ const projectRouter = require('./routes/project-routes');
+ const taskRouter = require('./routes/task-routes');
 
 
 // MONGOOSE CONNECTION
@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //  ...
 
 // ROUTES MIDDLEWARE:
-//  app.use('', projectRouter);
-//  app.use('', taskRouter);
+ app.use('/api', projectRouter);
+ app.use('/api', taskRouter);
 
 module.exports = app;
